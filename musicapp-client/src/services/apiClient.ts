@@ -1,0 +1,63 @@
+import { Album, Song, Artist } from "@/types";
+
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5089/api";
+
+/**
+ * Hàm gọi API chung
+ * @param endpoint - VD: "/songs"
+ * @param options - Tùy chọn Fetch (method, headers, body)
+ */
+export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch API bị lỗi:", error);
+    throw error;
+  }
+}
+
+// ----------------------------------------
+// CÁC HÀM GỌI API CỤ THỂ THEO CHỨC NĂNG
+// ----------------------------------------
+
+export const SongService = {
+  /** Lấy danh sách tất cả bài hát */
+  getAllSongs: () => fetchApi<Song[]>("/songs"),
+  
+  /** Lấy thông tin 1 bài hát cụ thể */
+  getSongById: (id: string) => fetchApi<Song>(`/songs/${id}`),
+
+  /** Tìm kiếm bài hát theo từ khóa */
+  searchSongs: (query: string) => fetchApi<Song[]>(`/songs/search?q=${encodeURIComponent(query)}`).catch(() => []),
+};
+
+export const AlbumService = {
+  /** Lấy danh sách tất cả Album */
+  getAllAlbums: () => fetchApi<Album[]>("/Albums"),
+
+  /** Lấy thông tin 1 Album cụ thể */
+  getAlbumById: (id: string) => fetchApi<Album>(`/Albums/${id}`),
+};
+
+export const ArtistService = {
+  /** Lấy danh sách tất cả Artist */
+  getAllArtists: () => fetchApi<Artist[]>("/Artists").catch(() => []),
+
+  /** Lấy thông tin 1 Artist cụ thể */
+  getArtistById: (id: string) => fetchApi<Artist>(`/Artists/${id}`),
+};
+
