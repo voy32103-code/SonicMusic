@@ -3,6 +3,24 @@ import { Album, Song, Artist } from "@/types";
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5089/api";
 
 /**
+ * Hàm hỗ trợ Timeout cho fetch
+ */
+async function fetchWithTimeout(resource: string, options: RequestInit & { timeout?: number } = {}) {
+  const { timeout = 8000 } = options;
+  
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal  
+  });
+  clearTimeout(id);
+
+  return response;
+}
+
+/**
  * Hàm gọi API chung
  * @param endpoint - VD: "/songs"
  * @param options - Tùy chọn Fetch (method, headers, body)
@@ -11,7 +29,7 @@ export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): 
   const url = `${API_BASE_URL}${endpoint}`;
   
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithTimeout(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +43,11 @@ export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): 
 
     return await response.json();
   } catch (error) {
-    console.error("Fetch API bị lỗi:", error);
+    if (error instanceof Error && error.name === 'AbortError') {
+      console.error("API call timed out");
+    } else {
+      console.error("Fetch API bị lỗi:", error);
+    }
     throw error;
   }
 }
@@ -52,12 +74,3 @@ export const AlbumService = {
   /** Lấy thông tin 1 Album cụ thể */
   getAlbumById: (id: string) => fetchApi<Album>(`/Albums/${id}`),
 };
-
-export const ArtistService = {
-  /** Lấy danh sách tất cả Artist */
-  getAllArtists: () => fetchApi<Artist[]>("/Artists").catch(() => []),
-
-  /** Lấy thông tin 1 Artist cụ thể */
-  getArtistById: (id: string) => fetchApi<Artist>(`/Artists/${id}`),
-};
-
