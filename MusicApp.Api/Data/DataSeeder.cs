@@ -5,76 +5,63 @@ namespace MusicApp.Api.Data
 {
     public static class DataSeeder
     {
-        public static async Task SeedDataAsync(MusicDbContext context)
+        public static async Task SeedDataAsync(MusicDbContext context, bool isDevelopment = false)
         {
             // Tự động Apply Migrations nếu chưa có
             await context.Database.MigrateAsync();
 
-            // Nếu DB đã có data bài hát, bỏ qua việc tạo fake data
-            if (await context.Songs.AnyAsync())
+            // Seed or update Admin User
+            var adminUser = await context.Users.FirstOrDefaultAsync(u => u.Email == "admin@sonicapp.com");
+            if (adminUser == null)
             {
-                return;
-            }
-
-            // 1. Tạo 5 Nghệ sĩ
-            var artists = new List<Artist>();
-            for (int i = 1; i <= 5; i++)
-            {
-                artists.Add(new Artist
+                await context.Users.AddAsync(new User
                 {
                     Id = Guid.NewGuid(),
-                    Name = $"Nghệ sĩ Demo {i}",
-                    AvatarUrl = $"https://api.dicebear.com/7.x/avataaars/svg?seed=Artist{i}"
+                    Email = "admin@sonicapp.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                    Role = "Admin"
                 });
+                await context.SaveChangesAsync();
             }
-            await context.Artists.AddRangeAsync(artists);
-
-            // 2. Tạo mỗi Nghệ sĩ 3 Album
-            var albums = new List<Album>();
-            foreach (var artist in artists)
+            else if (!adminUser.PasswordHash.StartsWith("$2"))
             {
-                for (int i = 1; i <= 3; i++)
+                // If the admin user exists but the password is not hashed (from an earlier run), update it
+                adminUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123");
+                await context.SaveChangesAsync();
+            }
+
+            // --- Cleanup Virtual/Dummy Data (ONLY in Development) ---
+            if (isDevelopment)
+            {
+                // Remove dummy transactions
+                var dummyTransactions = await context.Transactions.ToListAsync();
+                if (dummyTransactions.Any())
                 {
-                    albums.Add(new Album
-                    {
-                        Id = Guid.NewGuid(),
-                        Title = $"Album Demo số {i} của {artist.Name}",
-                        ArtistId = artist.Id,
-                        CoverUrl = $"https://api.dicebear.com/7.x/identicon/svg?seed=Album{artist.Id}{i}"
-                    });
+                    context.Transactions.RemoveRange(dummyTransactions);
+                }
+
+                // Remove dummy subscriptions
+                var dummySubscriptions = await context.Subscriptions.ToListAsync();
+                if (dummySubscriptions.Any())
+                {
+                    context.Subscriptions.RemoveRange(dummySubscriptions);
+                }
+
+                // Remove dummy artist
+                var dummyArtist = await context.Artists.FirstOrDefaultAsync(a => a.Name == "Universal Sync");
+                if (dummyArtist != null)
+                {
+                    context.Artists.Remove(dummyArtist);
+                }
+
+                // Remove dummy regular user
+                var dummyUser = await context.Users.FirstOrDefaultAsync(u => u.Email == "listener@sonicapp.com");
+                if (dummyUser != null)
+                {
+                    context.Users.Remove(dummyUser);
                 }
             }
-            await context.Albums.AddRangeAsync(albums);
 
-            // 3. Tạo 50 bài hát
-            var songs = new List<Song>();
-            int songCount = 0;
-            
-            // Link nhạc MP3 sample miễn phí
-            var sampleAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-
-            foreach (var album in albums)
-            {
-                for (int i = 1; i <= 4; i++) // 15 albums * 4 ~ 60 bài
-                {
-                    songCount++;
-                    songs.Add(new Song
-                    {
-                        Id = Guid.NewGuid(),
-                        Title = $"Bài hát nhạc trẻ Demo {songCount}",
-                        FileUrl = sampleAudio,
-                        Duration = 180 + (songCount % 60), // Ngẫu nhiên 3~4 phút
-                        PlayCount = songCount * 12,
-                        ArtistId = album.ArtistId,
-                        AlbumId = album.Id
-                    });
-
-                    if (songCount >= 50) break;
-                }
-                if (songCount >= 50) break;
-            }
-
-            await context.Songs.AddRangeAsync(songs);
             await context.SaveChangesAsync();
         }
     }

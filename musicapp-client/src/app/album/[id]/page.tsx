@@ -24,10 +24,10 @@ export default async function AlbumPage({ params }: { params: Promise<{ id: stri
         <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
           <span className="material-symbols-outlined text-4xl text-white/20">search_off</span>
         </div>
-        <h2 className="text-2xl font-bold text-white mb-2 italic">Album Not Found</h2>
-        <p className="text-white/40 mb-8 max-w-xs">The record you are looking for has been moved or deleted from our sonic archives.</p>
+        <h2 className="text-2xl font-bold text-white mb-2 italic">Không tìm thấy Album</h2>
+        <p className="text-white/40 mb-8 max-w-xs">Bản thu bạn đang tìm kiếm đã bị di chuyển hoặc xóa khỏi hệ thống.</p>
         <Link href="/" className="px-8 py-3 rounded-full play-button-gradient text-black font-black text-xs uppercase tracking-widest active:scale-95 transition-all">
-          Back to Archives
+          Quay lại
         </Link>
       </div>
     );
@@ -63,7 +63,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ id: stri
 
           <div className="flex flex-col items-start gap-4">
             <span className="px-4 py-1 rounded-full bg-white/5 border border-white/10 text-white/50 text-[10px] font-bold uppercase tracking-[0.2em] backdrop-blur-md">
-              Collection • Archive
+              Bộ sưu tập • Lưu trữ
             </span>
             <div className="space-y-1">
               <h1 className="text-5xl md:text-8xl font-black text-white italic tracking-tighter leading-tight drop-shadow-2xl">
@@ -78,7 +78,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ id: stri
                 </p>
                 <span className="text-white/20">•</span>
                 <p className="text-white/40 text-sm font-medium tracking-wide">
-                  {album.songs?.length || 0} Tracks • 2024
+                  {album.songs?.length || 0} Bài hát • 2024
                 </p>
               </div>
             </div>
@@ -94,8 +94,8 @@ export default async function AlbumPage({ params }: { params: Promise<{ id: stri
         <div className="relative z-10 glass-panel rounded-[2.5rem] p-4 md:p-8 border border-white/5 shadow-inner">
           <div className="flex text-[10px] text-white/30 font-bold uppercase tracking-[0.2em] pb-6 border-b border-white/5 mb-6 px-6">
             <div className="w-12 text-center">#</div>
-            <div className="flex-1">Sonic Composition</div>
-            <div className="w-24 text-right">Duration</div>
+            <div className="flex-1">Tác phẩm Âm nhạc</div>
+            <div className="w-24 text-right">Thời lượng</div>
           </div>
 
           <AlbumSongsList songs={album.songs || []} />

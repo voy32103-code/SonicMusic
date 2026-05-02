@@ -23,7 +23,7 @@ export default function Sidebar() {
           className="flex items-center gap-4 text-white font-bold py-3.5 px-6 rounded-full bg-white/5 transition-all hover:bg-white/10 group active:scale-95"
         >
           <span className="material-symbols-outlined filled text-primary group-hover:scale-110 transition-transform">home</span>
-          <span className="text-sm tracking-tight text-glow">Home</span>
+          <span className="text-sm tracking-tight text-glow">Trang chủ</span>
         </Link>
         
         <Link 
@@ -31,7 +31,7 @@ export default function Sidebar() {
           className="flex items-center gap-4 text-on-surface-variant hover:text-white transition-all py-3.5 px-6 rounded-full hover:bg-white/5 group active:scale-95"
         >
           <span className="material-symbols-outlined group-hover:scale-110 transition-transform">search</span>
-          <span className="text-sm tracking-tight">Search</span>
+          <span className="text-sm tracking-tight">Tìm kiếm</span>
         </Link>
         
         <Link 
@@ -39,17 +39,29 @@ export default function Sidebar() {
           className="flex items-center gap-4 text-on-surface-variant hover:text-white transition-all py-3.5 px-6 rounded-full hover:bg-white/5 group active:scale-95"
         >
           <span className="material-symbols-outlined group-hover:scale-110 transition-transform">library_music</span>
-          <span className="text-sm tracking-tight">Your Library</span>
+          <span className="text-sm tracking-tight">Thư viện</span>
+        </Link>
+
+        {/* Now Playing Indicator */}
+        <div className="mt-8 px-6 pb-2">
+          <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Đang phát</span>
+        </div>
+        <Link 
+          href="/now-playing" 
+          className="flex items-center gap-4 text-white font-bold py-3 px-6 rounded-full bg-white/10 scale-[1.02] transition-all shadow-[0_0_15px_rgba(79,254,126,0.1)]"
+        >
+          <span className="material-symbols-outlined text-primary filled">graphic_eq</span>
+          <span className="text-sm tracking-tight text-glow">Bài hát hiện tại</span>
         </Link>
       </div>
 
       {/* Playlist & Actions */}
       <div className="px-6 space-y-4">
         <div className="p-5 rounded-2xl bg-white/5 border border-white/5">
-          <p className="text-xs font-bold text-white mb-1">Create Playlist</p>
-          <p className="text-[10px] text-on-surface-variant mb-3">Build your personal music collection</p>
+          <p className="text-xs font-bold text-white mb-1">Tạo Playlist</p>
+          <p className="text-[10px] text-on-surface-variant mb-3">Xây dựng bộ sưu tập âm nhạc của bạn</p>
           <button className="w-full py-2.5 rounded-xl play-button-gradient text-black font-bold text-xs uppercase tracking-wider active:scale-95 transition-all">
-            Start Now
+            Bắt đầu ngay
           </button>
         </div>
       </div>

@@ -20,7 +20,7 @@ interface PlayerState {
   toggleShuffle: () => void;
 }
 
-export const usePlayerStore = create<PlayerState>((set, get) => ({
+export const usePlayerStore = create<PlayerState>((set) => ({
   currentSong: null,
   isPlaying: false,
   activeQueue: [],

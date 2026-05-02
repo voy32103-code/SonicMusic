@@ -129,3 +129,13 @@ D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\obj\Debug\net9.0\refint\MusicApp.Api
 D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\obj\Debug\net9.0\MusicApp.Api.pdb
 D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\obj\Debug\net9.0\MusicApp.Api.genruntimeconfig.cache
 D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\obj\Debug\net9.0\ref\MusicApp.Api.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\obj\Debug\net9.0\MusicApp.Api.sourcelink.json
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\BCrypt.Net-Next.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+D:\Yen-Antigravity\Webnghenhac\MusicApp.Api\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

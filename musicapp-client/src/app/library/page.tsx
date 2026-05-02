@@ -1,6 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
-import { AlbumService, ArtistService } from "@/services/apiClient";
+import { AlbumService } from "@/services/apiClient";
 import { Album, Artist } from "@/types";
 import MediaCard from "@/components/ui/MediaCard";
 
@@ -9,11 +7,10 @@ export const revalidate = 60;
 
 export default async function LibraryPage() {
   let albums: Album[] = [];
-  let artists: Artist[] = [];
+  const artists: Artist[] = [];
 
   try {
     albums = await AlbumService.getAllAlbums();
-    artists = await ArtistService.getAllArtists();
   } catch (error) {
     console.error("Error fetching library data:", error);
   }
@@ -22,17 +19,17 @@ export default async function LibraryPage() {
     <>
       {/* Header */}
       <div className="mb-12">
-        <h2 className="text-4xl md:text-[3.5rem] font-bold text-on-surface tracking-tight mb-8">Your Library</h2>
+        <h2 className="text-4xl md:text-[3.5rem] font-bold text-on-surface tracking-tight mb-8">Thư viện của bạn</h2>
         {/* Filters */}
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           <button className="px-6 py-2 rounded-full bg-primary text-on-primary text-sm font-medium whitespace-nowrap transition-transform hover:scale-105 shadow-[0_4px_20px_rgba(79,254,126,0.15)]">
-            Playlists
+            Danh sách phát
           </button>
           <button className="px-6 py-2 rounded-full bg-surface-container-highest text-on-surface text-sm font-medium whitespace-nowrap transition-transform hover:scale-105 hover:bg-surface-bright">
-            Artists
+            Nghệ sĩ
           </button>
           <button className="px-6 py-2 rounded-full bg-surface-container-highest text-on-surface text-sm font-medium whitespace-nowrap transition-transform hover:scale-105 hover:bg-surface-bright">
-            Albums
+            Album
           </button>
         </div>
       </div>
@@ -51,8 +48,8 @@ export default async function LibraryPage() {
             <div className="mb-4 bg-primary text-on-primary w-12 h-12 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(79,254,126,0.3)]">
               <span className="material-symbols-outlined material-symbols-filled">favorite</span>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Liked Songs</h3>
-            <p className="text-on-surface-variant text-sm font-medium">428 tracks</p>
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Bài hát đã thích</h3>
+            <p className="text-on-surface-variant text-sm font-medium">428 bài hát</p>
           </div>
         </div>
 
@@ -72,7 +69,7 @@ export default async function LibraryPage() {
           <MediaCard
             key={artist.id}
             title={artist.name}
-            subtitle="Artist"
+            subtitle="Nghệ sĩ"
             imageUrl={artist.avatarUrl}
             href={`/artist/${artist.id}`}
             className="text-center"
@@ -93,7 +90,7 @@ export default async function LibraryPage() {
               </div>
               <div className="p-5 relative bg-surface-container-high z-10 flex-shrink-0">
                 <h3 className="text-lg font-bold text-on-surface truncate">Midnight Drive</h3>
-                <p className="text-sm text-on-surface-variant mt-1">Playlist • The Sonic Immersive</p>
+                <p className="text-sm text-on-surface-variant mt-1">Danh sách phát • The Sonic Immersive</p>
               </div>
             </div>
             <div className="bg-surface-container-high rounded-lg overflow-hidden group cursor-pointer h-64 md:h-80 flex flex-col items-center justify-center p-6 text-center hover:bg-surface-container-highest transition-colors">
@@ -105,7 +102,7 @@ export default async function LibraryPage() {
                 />
               </div>
               <h3 className="text-lg font-bold text-on-surface truncate w-full group-hover:text-primary transition-colors">Echo Collective</h3>
-              <p className="text-sm text-on-surface-variant mt-1">Artist</p>
+              <p className="text-sm text-on-surface-variant mt-1">Nghệ sĩ</p>
             </div>
           </>
         )}

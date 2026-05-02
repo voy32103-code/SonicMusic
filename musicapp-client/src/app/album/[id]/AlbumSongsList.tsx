@@ -16,7 +16,7 @@ export default function AlbumSongsList({ songs }: AlbumSongsListProps) {
       return;
     }
     setQueue(songs);
-    playSong(index);
+    playSong(song);
   };
 
   return (

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { AlbumService } from "@/services/apiClient";
 import { Album } from "@/types";
@@ -20,7 +19,7 @@ export default async function Home() {
     <>
       {/* Hero / Greetings */}
       <section className="mb-12">
-        <h2 className="text-5xl font-headline font-black text-on-surface tracking-tighter mb-8 leading-none">Good Evening.</h2>
+        <h2 className="text-5xl font-headline font-black text-on-surface tracking-tighter mb-8 leading-none">Chào buổi tối.</h2>
         
         {/* Made For You Grid - Asymmetric */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -34,9 +33,9 @@ export default async function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/50 to-transparent"></div>
             <div className="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
               <div>
-                <p className="text-primary font-bold text-sm tracking-widest uppercase mb-2">Made For You</p>
-                <h3 className="text-3xl font-black text-on-surface leading-tight">Discover Weekly</h3>
-                <p className="text-on-surface-variant mt-2 max-w-md line-clamp-2">New music, handpicked just for you based on your immersive listening habits.</p>
+                <p className="text-primary font-bold text-sm tracking-widest uppercase mb-2">Dành riêng cho bạn</p>
+                <h3 className="text-3xl font-black text-on-surface leading-tight">Khám phá hàng tuần</h3>
+                <p className="text-on-surface-variant mt-2 max-w-md line-clamp-2">Âm nhạc mới, được chọn lọc riêng cho bạn dựa trên thói quen nghe nhạc của bạn.</p>
               </div>
               <button className="w-16 h-16 rounded-full play-button-gradient flex items-center justify-center text-on-primary shadow-[0_8px_30px_rgba(79,254,126,0.3)] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
                 <span className="material-symbols-outlined material-symbols-filled text-3xl">play_arrow</span>
@@ -82,9 +81,9 @@ export default async function Home() {
       {/* Recently Played / Albums - Square Cards */}
       <section className="mb-16">
         <div className="flex justify-between items-end mb-8">
-          <h3 className="text-3xl font-bold text-on-surface tracking-tight">Recently Played</h3>
+          <h3 className="text-3xl font-bold text-on-surface tracking-tight">Phát gần đây</h3>
           <Link href="/library" className="text-on-surface-variant hover:text-primary transition-colors font-bold text-sm tracking-wide uppercase">
-            Show All
+            Xem tất cả
           </Link>
         </div>
         
@@ -103,7 +102,7 @@ export default async function Home() {
         {albums.length === 0 && (
           <div className="py-20 text-center border-2 border-dashed border-white/5 rounded-[2rem]">
             <span className="material-symbols-outlined text-4xl text-white/20 mb-4 font-light italic">album</span>
-            <p className="text-white/40 text-sm italic font-medium">No albums found. Connect your sonic database.</p>
+            <p className="text-white/40 text-sm italic font-medium">Không tìm thấy album nào. Vui lòng kết nối với cơ sở dữ liệu.</p>
           </div>
         )}
       </section>

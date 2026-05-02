@@ -1,4 +1,4 @@
-import { Album, Song, Artist } from "@/types";
+import { Album, Song } from "@/types";
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5089/api";
 
@@ -29,16 +29,36 @@ export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): 
   const url = `${API_BASE_URL}${endpoint}`;
   
   try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      ...(options.headers as Record<string, string>),
+    };
+
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+    }
+
     const response = await fetchWithTimeout(url, {
       ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
+      headers,
     });
 
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+      const errorText = await response.text();
+      console.error(`Backend returned ${response.status}:`, errorText);
+
+      // Auto-redirect to login on 401 Unauthorized
+      if (response.status === 401 && typeof window !== "undefined") {
+        localStorage.removeItem("token");
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        window.location.href = "/login";
+        throw new Error("Phiên đăng nhập đã hết hạn. Đang chuyển về trang đăng nhập...");
+      }
+
+      throw new Error(`API Error: ${response.status} - ${response.statusText}. Details: ${errorText}`);
     }
 
     return await response.json();

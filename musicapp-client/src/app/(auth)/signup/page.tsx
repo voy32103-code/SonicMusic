@@ -1,6 +1,43 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { API_BASE_URL } from "@/services/apiClient";
 
 export default function SignUpPage() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Đăng ký thất bại");
+      }
+
+      const { token } = await response.json();
+      localStorage.setItem("token", token);
+      document.cookie = `token=${token}; path=/; max-age=86400`;
+
+      router.push("/");
+    } catch (err: any) {
+      setError(err.message || "Đã xảy ra lỗi");
+    }
+  };
+
   return (
     <div className="bg-background text-on-surface font-body min-h-screen flex items-center justify-center relative overflow-hidden antialiased">
       {/* Ambient Background Layer */}
@@ -23,48 +60,76 @@ export default function SignUpPage() {
           <div className="flex flex-col gap-3">
             <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase">The Sonic Immersive</span>
             <h1 className="font-headline text-4xl md:text-[2.5rem] leading-tight font-extrabold text-on-surface tracking-tight">
-              Join the stage.
+              Tham gia sân khấu.
             </h1>
             <p className="text-on-surface-variant text-sm max-w-[80%]">
-              Create your profile to access high-end editorial soundscapes.
+              Tạo hồ sơ để truy cập những bản nhạc chất lượng cao.
             </p>
           </div>
           {/* Registration Form */}
-          <form className="flex flex-col gap-6 w-full">
+          <form className="flex flex-col gap-6 w-full" onSubmit={handleSignUp}>
+            {error && <div className="text-red-400 bg-red-900/20 p-3 rounded-lg text-sm">{error}</div>}
             {/* Input Group: Username */}
             <div className="flex flex-col gap-2 relative group">
-              <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider pl-1" htmlFor="username">Username</label>
+              <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider pl-1" htmlFor="username">Tên người dùng</label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">person</span>
-                <input className="w-full bg-surface-container-highest pt-4 pb-3 pl-12 pr-4 rounded-t-md border-b-2 border-outline-variant/15 focus:border-primary focus:outline-none text-on-surface placeholder:text-on-surface-variant/40 transition-colors" id="username" name="username" placeholder="Choose a display name" required type="text"/>
+                <input 
+                  className="w-full bg-surface-container-highest pt-4 pb-3 pl-12 pr-4 rounded-t-md border-b-2 border-outline-variant/15 focus:border-primary focus:outline-none text-on-surface placeholder:text-on-surface-variant/40 transition-colors" 
+                  id="username" 
+                  name="username" 
+                  placeholder="Chọn tên hiển thị" 
+                  required 
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
             </div>
             {/* Input Group: Email */}
             <div className="flex flex-col gap-2 relative group">
-              <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider pl-1" htmlFor="email">Email Address</label>
+              <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider pl-1" htmlFor="email">Địa chỉ Email</label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">mail</span>
-                <input className="w-full bg-surface-container-highest pt-4 pb-3 pl-12 pr-4 rounded-t-md border-b-2 border-outline-variant/15 focus:border-primary focus:outline-none text-on-surface placeholder:text-on-surface-variant/40 transition-colors" id="email" name="email" placeholder="name@example.com" required type="email"/>
+                <input 
+                  className="w-full bg-surface-container-highest pt-4 pb-3 pl-12 pr-4 rounded-t-md border-b-2 border-outline-variant/15 focus:border-primary focus:outline-none text-on-surface placeholder:text-on-surface-variant/40 transition-colors" 
+                  id="email" 
+                  name="email" 
+                  placeholder="name@example.com" 
+                  required 
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
             {/* Input Group: Password */}
             <div className="flex flex-col gap-2 relative group">
-              <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider pl-1" htmlFor="password">Password</label>
+              <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider pl-1" htmlFor="password">Mật khẩu</label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">lock</span>
-                <input className="w-full bg-surface-container-highest pt-4 pb-3 pl-12 pr-4 rounded-t-md border-b-2 border-outline-variant/15 focus:border-primary focus:outline-none text-on-surface placeholder:text-on-surface-variant/40 transition-colors" id="password" name="password" placeholder="Minimum 8 characters" required type="password"/>
+                <input 
+                  className="w-full bg-surface-container-highest pt-4 pb-3 pl-12 pr-4 rounded-t-md border-b-2 border-outline-variant/15 focus:border-primary focus:outline-none text-on-surface placeholder:text-on-surface-variant/40 transition-colors" 
+                  id="password" 
+                  name="password" 
+                  placeholder="Tối thiểu 8 ký tự" 
+                  required 
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </div>
             {/* Submit Action */}
             <div className="mt-4 flex flex-col gap-6">
               <button className="w-full py-4 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-base tracking-wide hover:scale-[1.02] hover:shadow-[0_0_30px_-5px_rgba(79,254,126,0.3)] transition-all duration-300 flex items-center justify-center gap-2 group" type="submit">
-                Sign Up
+                Đăng ký
                 <span className="material-symbols-outlined material-symbols-bold text-on-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
               </button>
               {/* Secondary Navigation */}
               <p className="text-center text-sm text-on-surface-variant">
-                Already have an account?{" "}
-                <Link className="text-on-surface font-medium hover:text-primary transition-colors underline decoration-outline-variant/30 underline-offset-4 hover:decoration-primary" href="/login">Log in</Link>
+                Đã có tài khoản?{" "}
+                <Link className="text-on-surface font-medium hover:text-primary transition-colors underline decoration-outline-variant/30 underline-offset-4 hover:decoration-primary" href="/login">Đăng nhập</Link>
               </p>
             </div>
           </form>

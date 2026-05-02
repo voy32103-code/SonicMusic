@@ -15,6 +15,8 @@ namespace MusicApp.Api.Data
         public DbSet<Song> Songs { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<PlaylistSong> PlaylistSongs { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +49,8 @@ namespace MusicApp.Api.Data
             modelBuilder.Entity<Album>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Song>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Playlist>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Subscription>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Transaction>().HasQueryFilter(e => !e.IsDeleted);
 
             // Configure Cascade rules to prevent orphan records
             modelBuilder.Entity<Playlist>()
@@ -72,6 +76,24 @@ namespace MusicApp.Api.Data
                 .WithMany(a => a.Songs)
                 .HasForeignKey(s => s.AlbumId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne(s => s.User)
+                .WithMany()
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Artist)
+                .WithMany()
+                .HasForeignKey(t => t.ArtistId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

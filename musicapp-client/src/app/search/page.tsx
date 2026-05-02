@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import { SongService } from "@/services/apiClient";
 import { Song } from "@/types";
 import TrackRow from "@/components/ui/TrackRow";
@@ -28,13 +26,13 @@ export default async function SearchPage({
     <>
       <div className="mb-8">
         <h2 className="text-4xl md:text-[3.5rem] font-bold text-on-surface tracking-tight mb-4">
-          {query ? `Search results for "${query}"` : "Browse all"}
+          {query ? `Kết quả tìm kiếm cho "${query}"` : "Duyệt tất cả"}
         </h2>
       </div>
 
       {query && songs.length === 0 ? (
         <div className="text-on-surface-variant py-8">
-          No tracks found for "{query}". Try a different keyword.
+          Không tìm thấy bài hát nào cho &quot;{query}&quot;. Hãy thử từ khóa khác.
         </div>
       ) : (
         <div className="flex flex-col gap-2">
@@ -55,7 +53,7 @@ export default async function SearchPage({
                </div>
                <div className="bg-surface-container-high rounded-lg overflow-hidden group cursor-pointer h-32 md:h-40 flex items-end p-4 relative">
                  <div className="absolute inset-0 bg-gradient-to-br from-tertiary/30 to-tertiary-container/10"></div>
-                 <h3 className="text-xl font-bold text-on-surface truncate relative z-10">Electronic</h3>
+                 <h3 className="text-xl font-bold text-on-surface truncate relative z-10">Điện tử</h3>
                </div>
                <div className="bg-surface-container-high rounded-lg overflow-hidden group cursor-pointer h-32 md:h-40 flex items-end p-4 relative">
                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 to-secondary-container/10"></div>

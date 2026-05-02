@@ -72,13 +72,13 @@ export default function ArtistProfilePage({ params }: { params: { id: string } }
         <div className="relative z-10 w-full px-6 md:px-12 pb-12">
           <div className="flex items-center gap-2 mb-2">
             <span className="material-symbols-outlined material-symbols-filled text-primary text-xl">verified</span>
-            <span className="text-sm uppercase tracking-widest text-on-surface-variant font-bold">Verified Artist</span>
+            <span className="text-sm uppercase tracking-widest text-on-surface-variant font-bold">Nghệ sĩ đã xác minh</span>
           </div>
           {/* Oversized Typography */}
           <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-on-surface mb-4 leading-none -ml-1">
             Aurora <br/> Synth
           </h1>
-          <p className="text-on-surface-variant mb-8 text-lg font-medium">12,405,892 monthly listeners</p>
+          <p className="text-on-surface-variant mb-8 text-lg font-medium">12,405,892 người nghe hàng tháng</p>
 
           <div className="flex items-center gap-4">
             {/* Kinetic Play Button */}
@@ -87,7 +87,7 @@ export default function ArtistProfilePage({ params }: { params: { id: string } }
             </button>
             {/* Secondary Follow Button */}
             <button className="px-8 py-3 rounded-full border border-outline-variant/15 text-on-surface font-bold hover:bg-surface-container-high transition-colors tracking-wide">
-              Follow
+              Theo dõi
             </button>
             <button className="w-12 h-12 rounded-full border border-outline-variant/15 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors ml-auto md:ml-4">
               <span className="material-symbols-outlined">more_horiz</span>
@@ -102,7 +102,7 @@ export default function ArtistProfilePage({ params }: { params: { id: string } }
         <div className="py-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left Column: Popular Tracks (8 columns) */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            <h2 className="text-2xl font-bold tracking-tight">Popular</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Phổ biến</h2>
             <div className="flex flex-col gap-2">
               {popularTracks.map((song, idx) => (
                 <TrackRow key={song.id} song={song} index={idx} />
@@ -112,7 +112,7 @@ export default function ArtistProfilePage({ params }: { params: { id: string } }
           
           {/* Right Column: Artist Pick / Tour (4 columns) */}
           <div className="lg:col-span-4 flex flex-col gap-6">
-            <h2 className="text-2xl font-bold tracking-tight">Artist Pick</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Nghệ sĩ chọn</h2>
             {/* Featured Card */}
             <div className="bg-surface-container-high rounded-lg p-4 group cursor-pointer relative overflow-hidden flex flex-col gap-4">
               <img 
@@ -121,9 +121,9 @@ export default function ArtistProfilePage({ params }: { params: { id: string } }
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9hgk6OHv2nlbCmDvh3XbqM9HC8F_xOeFxEW-mi6UhgHF0K-JgLmjNEThDoZa0y8FSVZcaxoKRHUhz11mr811sdG3_gmz347aBbTZJYBmsk1U2JtE6fY2w_cyrynpBdNFF7qLJXbtyYf7DoYRTZ7tSYXjwj-TINbpERubHueMKyTE0lNIxSChNCBWBQCtlm4gcsl5uyJuNU7U-qdKEJjGFzvH4RO__3v_GKQU73gEPM2Es5c6lJkNJPe_TEw8-MTuVIUoHPMVtUjyr"
               />
               <div className="flex flex-col gap-1 z-10">
-                <span className="text-xs uppercase tracking-widest text-primary font-bold">On Tour</span>
+                <span className="text-xs uppercase tracking-widest text-primary font-bold">Đang lưu diễn</span>
                 <span className="text-lg font-bold">The Obsidian Tour 2024</span>
-                <span className="text-sm text-on-surface-variant">Live in Berlin, London, Tokyo</span>
+                <span className="text-sm text-on-surface-variant">Biểu diễn tại Berlin, London, Tokyo</span>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function ArtistProfilePage({ params }: { params: { id: string } }
 
         {/* Discography Section */}
         <section className="py-8 flex flex-col gap-6">
-          <h2 className="text-2xl font-bold tracking-tight">Discography</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Danh sách đĩa nhạc</h2>
           {/* Bento Grid inspired layout for albums */}
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {discography.map((album) => (

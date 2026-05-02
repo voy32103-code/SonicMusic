@@ -9,9 +9,9 @@ export default function MainLayoutWrapper({ children }: { children: React.ReactN
   const pathname = usePathname();
   
   // Define which paths should hide the main navigation and player
-  const isAuthPage = pathname?.startsWith("/login") || pathname?.startsWith("/signup");
+  const isStandalonePage = pathname?.startsWith("/login") || pathname?.startsWith("/signup") || pathname?.startsWith("/admin") || pathname?.startsWith("/now-playing");
 
-  if (isAuthPage) {
+  if (isStandalonePage) {
     return (
       <main className="w-full min-h-screen">
         {children}
